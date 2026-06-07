@@ -1,4 +1,4 @@
-from pieces import Rook, Knight, Bishop, Queen, King, Piece
+from pieces import Rook, Knight, Bishop, Queen, King, Piece , Pawn
 
 
 class Board:
@@ -10,7 +10,10 @@ class Board:
 
     def set_starting_position(self):
 
-        """for the white pieces"""
+        """for the black pieces"""
+        for i in range(8):
+            self.Grid[1][i] = Pawn("Black")
+
         self.Grid[0][0] = Rook("Black")
         self.Grid[0][7] = Rook("Black")
 
@@ -23,9 +26,12 @@ class Board:
         self.Grid[0][3] = Queen("Black")
         self.Grid[0][4] = King("Black")
 
-        """for the black pieces"""
+        """for the white pieces"""
+        for i in range(8):
+            self.Grid[6][i] = Pawn("White")
+
         self.Grid[7][0] = Rook("White")
-        self.Grid[7][7] = Rook("white")
+        self.Grid[7][7] = Rook("White")
 
         self.Grid[7][1] = Knight("White")
         self.Grid[7][6] = Knight("White")
