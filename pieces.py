@@ -24,10 +24,10 @@ class Pawn(Piece):
                 moves.append([new_row,col])
 
                 """to move two rows ahead"""
-            if self.has_moved is False:
-                two_ahead = row + ( 2 * direction)
-                if board[two_ahead][col] is None:
-                    moves.append([two_ahead,col])
+                if self.has_moved is False:
+                    two_ahead = row + ( 2 * direction)
+                    if board[two_ahead][col] is None:
+                        moves.append([two_ahead,col])
 
             """Capture diagonally"""
         for col_offset in [-1, 1]:
@@ -47,59 +47,31 @@ class Rook(Piece):
     def valid_moves(self,row, col , board):
         moves = []
 
+
         """has a cross like movement"""
+        offsets = [
+            (-1,+0), (+1, +0), #up and down
+            (+0,+1), (+0, -1) # left and right
+            ]
 
-        """up"""
-        r = row + 1
-        while r <= 7:
-            if board[r][col] is None:
-                moves.append([r,col])
-            if board[r][col] != self.color:
-                moves.append([r,col])
-                break
-            else:
-                break
-            r += 1
+        for row_offset, col_offset in offsets:
+            new_row = row + row_offset
+            new_col = col + col_offset
 
-        """down: this from whites view will be moving up the board """
-        r = row - 1
-        while r >= 0:
-            if board[r][col] is None:
-                moves.append([r,col])
-            if board[r][col] != self.color:
-                moves.append([r,col])
-                break
-            else:
-                break
-
-            r -= 1
-
-        """right"""
-        c = col + 1
-        while c <= 7:
-            if board[row][c] is None:
-                moves.append([row,c])
-            if board[row][c] != self.color:
-                moves.append([row,c])
-                break
-            else:
-                break
-            c += 1
+            while 0 <= new_row <= 7 and 0 <= new_col <= 7:
+                if board[new_row][new_col] is None:
+                    moves.append([new_row,new_col])
+                elif board[new_row][new_col].color != self.color:
+                    moves.append([new_row,new_col])
+                    break
+                else:
+                    break
+                new_row += row_offset
+                new_col += col_offset
 
 
-                c += 1
+        return moves
 
-        """left"""
-        c = col - 1
-        while c >= 0:
-            if board[row][c] is None:
-                moves.append([row,c])
-            if board[row][c] != self.color:
-                moves.append([row,c])
-                break
-            else:
-                break
-            c -= 1
 
 
 
@@ -110,18 +82,116 @@ class Knight(Piece):
     def valid_moves(self,row , col,  board):
         moves = []
 
-        
+        """offsets co ordinates for knight movement """
+
+        offsets = [
+            (-2, -1), (-2, +1),  # up 2, left/right 1
+            (+2, -1), (+2, +1),  # down 2, left/right 1
+            (-1, -2), (-1, +2),  # up 1, left/right 2
+            (+1, -2), (+1, +2)
+        ]
+
+
+        for row_offset , col_offset in offsets:
+            new_row = row + row_offset
+            new_col = col + col_offset
+
+            if 0 <= new_row <= 7 and 0 <= new_col <= 7:
+                target = board[new_row][new_col]
+                if target is None or target != self.color:
+                    moves.append([new_row,new_col])
+
+        return moves
+
+
 
 class Bishop(Piece):
     def __init__(self,color):
         super().__init__("Bishop",color)
 
+    def valid_moves(self,row, col, board):
+        moves = []
+
+        offsets = [
+
+            (-1, -1), (-1, +1), #up one row, left and right
+            (+1, -1), (+1, +1) #down one row , left and right
+        ]
+
+        """trying to move to the right first"""
+        for row_offset, col_offset in offsets:
+            new_row = row + row_offset
+            new_col = col + col_offset
+
+            while 0 <= new_row <= 7 and 0 <= new_col <= 7:
+                if board[new_row][new_col] is None:
+                    moves.append([new_row,new_col])
+                if board[new_row][new_col].color != self.color: #the capture squares
+                    moves.append([new_row,new_col])
+                    break
+                else:
+                    break
+                new_row += row_offset
+                new_col += col_offset
+
+        return moves
+
+
+
+
+
+
+
 class Queen(Piece):
     def __init__(self,color):
         super().__init__("Queen",color)
 
+    def valid_moves(self, row, col, board):
+        moves = []
+
+        """the rook and bishop movement all combined"""
+        offsets = [
+            (-1, 0), (+1, 0), (0, +1), (0, -1),  # rook
+            (-1, -1), (-1, +1), (+1, -1), (+1, +1)  # bishop
+        ]
+
+        for row_offset, col_offset in offsets:
+            new_row = row + row_offset
+            new_col = col + col_offset
+            while 0 <= new_row <= 7 and 0 <= new_col <= 7:
+                if board[new_row][new_col] is None:
+                    moves.append([new_row, new_col])
+                elif board[new_row][new_col].color != self.color:
+                    moves.append([new_row, new_col])
+                    break
+                else:
+                    break
+                new_row += row_offset
+                new_col += col_offset
+
+        return moves
+
 class King(Piece):
     def __init__(self,color):
         super().__init__("King",color)
+
+    def valid_moves(self,row, col , board):
+        moves = []
+
+        offsets = [
+            (+1, -1), (+1,+0), (+1, +1),
+            (+0, -1),          (+0, +1),
+            (-1, -1), (-1, 0), (-1, +1)
+
+        ]
+
+        for row_offset, col_offset in offset:
+            new_row = row + row_offset
+            new_col = col + col_offset
+            if 0 <= new_row <= 7 and 0 <= new_col <= 7:
+                target = board[new_row][new_col]
+                if target is None or taget.color != self.color:
+                    moves.append([new_row, new_col])
+        return moves
 
 
