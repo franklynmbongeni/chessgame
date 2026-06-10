@@ -42,6 +42,9 @@ class Board:
         self.Grid[7][3] = Queen("White")
         self.Grid[7][4] = King("White")
 
+    def get_piece(self,row, col):
+        return self.Grid[row][col]
+
 
 
     """temporary function to check grid"""
@@ -51,6 +54,7 @@ class Board:
 
 
 
-dummy = Board()
-dummy.set_starting_position()
-dummy.print_board()
+if __name__ == "__main__":
+    dummy = Board()
+    dummy.set_starting_position()
+    dummy.print_board()

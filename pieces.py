@@ -21,13 +21,13 @@ class Pawn(Piece):
 
         if 0 <= new_row <= 7:
             if board[new_row][col] is None:
-                moves.append([new_row,col])
+                moves.append((new_row,col))
 
                 """to move two rows ahead"""
                 if self.has_moved is False:
                     two_ahead = row + ( 2 * direction)
                     if board[two_ahead][col] is None:
-                        moves.append([two_ahead,col])
+                        moves.append((two_ahead,col))
 
             """Capture diagonally"""
         for col_offset in [-1, 1]:
@@ -60,9 +60,9 @@ class Rook(Piece):
 
             while 0 <= new_row <= 7 and 0 <= new_col <= 7:
                 if board[new_row][new_col] is None:
-                    moves.append([new_row,new_col])
+                    moves.append((new_row,new_col))
                 elif board[new_row][new_col].color != self.color:
-                    moves.append([new_row,new_col])
+                    moves.append((new_row,new_col))
                     break
                 else:
                     break
@@ -98,8 +98,8 @@ class Knight(Piece):
 
             if 0 <= new_row <= 7 and 0 <= new_col <= 7:
                 target = board[new_row][new_col]
-                if target is None or target != self.color:
-                    moves.append([new_row,new_col])
+                if target is None or target.color != self.color:
+                    moves.append((new_row,new_col))
 
         return moves
 
@@ -125,9 +125,9 @@ class Bishop(Piece):
 
             while 0 <= new_row <= 7 and 0 <= new_col <= 7:
                 if board[new_row][new_col] is None:
-                    moves.append([new_row,new_col])
-                if board[new_row][new_col].color != self.color: #the capture squares
-                    moves.append([new_row,new_col])
+                    moves.append((new_row,new_col))
+                elif board[new_row][new_col].color != self.color: #the capture squares
+                    moves.append((new_row,new_col))
                     break
                 else:
                     break
@@ -160,9 +160,9 @@ class Queen(Piece):
             new_col = col + col_offset
             while 0 <= new_row <= 7 and 0 <= new_col <= 7:
                 if board[new_row][new_col] is None:
-                    moves.append([new_row, new_col])
+                    moves.append((new_row, new_col))
                 elif board[new_row][new_col].color != self.color:
-                    moves.append([new_row, new_col])
+                    moves.append((new_row, new_col))
                     break
                 else:
                     break
@@ -185,13 +185,13 @@ class King(Piece):
 
         ]
 
-        for row_offset, col_offset in offset:
+        for row_offset, col_offset in offsets:
             new_row = row + row_offset
             new_col = col + col_offset
             if 0 <= new_row <= 7 and 0 <= new_col <= 7:
                 target = board[new_row][new_col]
-                if target is None or taget.color != self.color:
-                    moves.append([new_row, new_col])
+                if target is None or target.color != self.color:
+                    moves.append((new_row, new_col))
         return moves
 
 
