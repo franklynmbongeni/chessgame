@@ -7,7 +7,7 @@ class Board:
         self.Grid = [[None for _ in range(8)] for _ in range(8)]
 
 
-
+        """starting positions for pieces"""
     def set_starting_position(self):
 
         """for the black pieces"""
@@ -53,8 +53,3 @@ class Board:
             print([str(piece) if piece is not None else None for piece in row])
 
 
-
-if __name__ == "__main__":
-    dummy = Board()
-    dummy.set_starting_position()
-    dummy.print_board()
