@@ -45,6 +45,37 @@ class Board:
     def get_piece(self,row, col):
         return self.Grid[row][col]
 
+        """helper function to for the below method is_in_check()"""
+    def find_king(self,color): 
+        for row in range(8):
+            for col in range(8):
+                piece = self.Grid[row][col]
+                if isinstance(piece, King) and piece.color == color:
+                    return (row,col)
+        return None
+
+
+    def is_in_check(self, color):
+        king_row , king_col = self.find_king(color)
+        enemy_color = "White" if color == "Black" else "Black"
+
+        """loop through the whole board to check only the valid moves for the other player's pieces
+         if they show up similar to the kings position"""
+        for row in range(8):
+            for col in range(8):
+                piece = self.Grid[row][col]
+                if piece is not None and piece.color != enemy_color:
+                    if (king_row, king_col) in piece.valid_moves(row,col,self.Grid):
+                        return True
+
+        return False
+
+
+
+
+
+
+
 
 
     """temporary function to check grid"""

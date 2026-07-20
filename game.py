@@ -28,6 +28,9 @@ class Game:
             """the move is invalid"""
             pass
 
+    def is_in_check(self ,current_turn):
+        pass
+
 
 
 
