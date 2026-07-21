@@ -1,5 +1,16 @@
 from board import Board
+from pieces import Pawn
 from pieces import Rook
+
+"""tests for the pawn"""
+def test_pawn_moves_freely_on_empty_board():
+    board = Board()
+    pawn = Pawn("White")
+    board.Grid[4][4] = pawn
+
+    moves = pawn.valid_moves(4,4, board.Grid)
+
+    assert (3,4) in moves #since it only moves one tile ahead"""
 
 """tests for the rook"""
 def test_rook_moves_freely_on_empty_board():
