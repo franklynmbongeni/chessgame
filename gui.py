@@ -22,6 +22,37 @@ def draw_board():
             rect = pygame.Rect(col * SQUARE_SIZE, row * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE)
             pygame.draw.rect(screen, color, rect)
 
+font = pygame.font.SysFont("arial", 42, bold=True)
+
+WHITE_PIECE = (250, 250, 250)
+BLACK_PIECE = (20, 20, 20)
+
+LABELS = {
+    "Pawn": "P",
+    "Rook": "R",
+    "Knight": "N",
+    "Bishop": "B",
+    "Queen": "Q",
+    "King": "K",
+}
+
+
+def draw_pieces():
+    for row in range(8):
+        for col in range(8):
+            piece = game.board.get_piece(row, col)
+            if piece is None:
+                continue
+
+            center = (col * SQUARE_SIZE + SQUARE_SIZE // 2, row * SQUARE_SIZE + SQUARE_SIZE // 2)
+            fill = WHITE_PIECE if piece.color == "White" else BLACK_PIECE
+            pygame.draw.circle(screen, fill, center, SQUARE_SIZE // 2 - 10)
+
+            label = LABELS[piece.type]
+            text_color = BLACK_PIECE if piece.color == "White" else WHITE_PIECE
+            text_surface = font.render(label, True, text_color)
+            text_rect = text_surface.get_rect(center=center)
+            screen.blit(text_surface, text_rect)
 
 def main():
     running = True
@@ -34,6 +65,7 @@ def main():
 
         screen.fill((0, 0, 0))
         draw_board()
+        draw_pieces()
         pygame.display.flip()
         clock.tick(60)
 
