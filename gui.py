@@ -14,6 +14,12 @@ pygame.display.set_caption("Chess")
 
 game = Game()
 
+def square_from_mouse():    #get the position of the click and convert it to board position
+    x,y = pygame.mouse.get_pos()
+    col = x // SQUARE_SIZE
+    row = y // SQUARE_SIZE
+
+    return (row, col)
 
 def draw_board():
     for row in range(8):
@@ -57,11 +63,31 @@ def draw_pieces():
 def main():
     running = True
     clock = pygame.time.Clock()
+    selected_square = None
+
+    """the first clicked is to select the piece on the square
+                if piece exists we move to the second clicked will be for the destination square"""
 
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
+
+
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                clicked = square_from_mouse()
+
+                if selected_square is None: #try to select piece
+                    row , col = clicked
+                    piece = game.board.get_piece(row, col)
+                    if piece is not None and piece.color == game.current_turn:
+                        selected_square = clicked
+                else:
+                    start_row, start_col = selected_square
+                    end_row, end_col = clicked
+                    attempt = game.attempt_move(start_row, start_col, end_row, end_col)
+                    if attempt is True:
+                        selected_square = None
 
         screen.fill((0, 0, 0))
         draw_board()

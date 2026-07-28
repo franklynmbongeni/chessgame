@@ -23,10 +23,12 @@ class Game:
                     self.current_turn = "Black" if self.current_turn == "White" else "White"
                     if isinstance (selected_piece, Pawn):
                         selected_piece.has_moved = True
-
+                    return True
+                return False
+            return False
         else:
             """the move is invalid"""
-            pass
+            return False
 
     def is_in_check(self ,current_turn):
         pass
