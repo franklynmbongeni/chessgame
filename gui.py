@@ -10,7 +10,6 @@ LIGHT = (235, 210, 183)
 DARK = (160, 110, 80)
 
 screen = pygame.display.set_mode((BOARD_SIZE, BOARD_SIZE))
-pygame.display.set_caption("Chess")
 
 game = Game()
 
@@ -69,9 +68,13 @@ def main():
                 if piece exists we move to the second clicked will be for the destination square"""
 
     while running:
+        pygame.display.set_caption(f"Chess Turn {game.current_turn}")
+
+        """"temporary check to see if king is in check works"""
+        print(game.board.is_in_check(game.current_turn))
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                running = False
+                running = Falsepygame.display.set_caption(f"Chess Turn {game.current_turn}")
 
 
             elif event.type == pygame.MOUSEBUTTONDOWN:

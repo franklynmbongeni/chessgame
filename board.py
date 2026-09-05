@@ -64,11 +64,13 @@ class Board:
         for row in range(8):
             for col in range(8):
                 piece = self.Grid[row][col]
-                if piece is not None and piece.color != enemy_color:
+                if piece is not None and piece.color == enemy_color:
                     if (king_row, king_col) in piece.valid_moves(row,col,self.Grid):
-                        return True
 
-        return False
+                        return "king is in check"
+                        #return True
+
+        return "king is not in check" #False
 
 
 
@@ -84,3 +86,6 @@ class Board:
             print([str(piece) if piece is not None else None for piece in row])
 
 
+print_board = Board()
+print_board.set_starting_position()
+print_board.print_board()
